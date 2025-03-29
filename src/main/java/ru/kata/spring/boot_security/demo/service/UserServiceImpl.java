@@ -47,6 +47,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public User findUserByEmail(String email) {
+        return userDao.findUserByEmail(email);
+    }
+
+    @Override
     @Transactional
     public void deleteUser(Long id) {
         userDao.deleteUser(id);
@@ -79,22 +85,35 @@ public class UserServiceImpl implements UserService {
 //        userDao.saveUser(user);
 //    }
 
+//    @Override
+//    @Transactional
+//    public void updateUser(Long id, String name, String password, String email) {
+//        User user = findUserById(id);
+//        if (user != null) {
+//            user.setUsername(name);
+//            user.setPassword(passwordEncoder.encode(password));
+//            user.setEmail(email);
+//            userDao.updateUser(user);
+//        }
+//    }
+
     @Override
     @Transactional
-    public void updateUser(Long id, String name, String password, String email) {
+    public void updateUser(Long id, String name, String password, String email, Set<Role> roles) {
         User user = findUserById(id);
         if (user != null) {
             user.setUsername(name);
             user.setPassword(passwordEncoder.encode(password));
             user.setEmail(email);
+            user.setRoles(roles);
             userDao.updateUser(user);
         }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findUserWithRolesByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userDao.findUserWithRolesByEmail(email);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found");

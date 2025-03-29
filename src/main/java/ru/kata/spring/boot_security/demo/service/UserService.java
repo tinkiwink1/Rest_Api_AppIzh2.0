@@ -19,13 +19,13 @@ public interface UserService extends UserDetailsService {
 
     User findUserByName (String username);
 
-    void deleteUser(Long id);
+    User findUserByEmail (String email);
 
-//    void saveUser(String name, String password, String email);
+    void deleteUser(Long id);
 
     void saveUser(String name, String password, String email, Set<Role> roles);
 
-    void updateUser(Long id, String name, String password, String email);
+    void updateUser(Long id, String name, String password, String email, Set<Role> roles);
 
     @Override
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;

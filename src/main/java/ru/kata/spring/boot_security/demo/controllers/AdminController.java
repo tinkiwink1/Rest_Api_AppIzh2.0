@@ -37,25 +37,18 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String admin(Model model, Principal principal) {
+    public String admin(Model model, Principal principal,
+                        @ModelAttribute("user") User newUser) {
         User user = userService.findUserByName(principal.getName());
         model.addAttribute("currentUser", user);
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
+        model.addAttribute("roles", user.getRoles());
         return "admin";
     }
-
-    @GetMapping("/admin/new_user")
-    public ModelAndView newUser(@ModelAttribute("user") User user) {
-        ModelAndView mav = new ModelAndView("new_user");
-        List<Role> roles = roleDao.getAllRoles();
-        mav.addObject("allRoles", roles);
-        return mav;
-    }
-
     @PostMapping("/admin/new_user")
     public String saveUser(@ModelAttribute User user,
-                           @RequestParam Set<String> selectedRoles) {
+                           @RequestParam("roleNames") Set<String> selectedRoles) {
         Set<Role> roles = new HashSet<>();
         if (!selectedRoles.isEmpty()) {
             Arrays.stream(selectedRoles.toArray()).forEach(roleName -> roles.add(roleDao.findRoleByName(roleName.toString())));
@@ -65,20 +58,19 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/delete_user")
+    @PostMapping("/admin/delete")
     public String deleteUser(@RequestParam Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edit")
-    public String editUser(@RequestParam Long id, Model model) {
-        model.addAttribute("user", userService.findUserById(id));
-        return "edit";
-    }
     @PostMapping("/admin/edit")
-    public String setEdit(@RequestParam Long id, @ModelAttribute User user) {
-        userService.updateUser(id, user.getUsername(), user.getPassword(), user.getEmail());
+    public String editUser(@ModelAttribute User user,
+                           @RequestParam("rolesName") Set<String> selectedRoles , @RequestParam("id") Long id) {
+        Set<Role> roles = new HashSet<>();
+        Arrays.stream(selectedRoles.toArray()).forEach(roleName -> roles.add(roleDao.findRoleByName(roleName.toString())));
+        user.setRoles(roles);
+        userService.updateUser(id, user.getUsername(), user.getPassword(), user.getEmail(), user.getRoles());
         return "redirect:/admin";
     }
 

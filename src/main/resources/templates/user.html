@@ -1,14 +1,70 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>Spring security app</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-
-<h1>Welcome, <span th:text="${user.username}"></span>, spring boot security page!</h1>
-<p>e-main: <span th:text="${user.email}"></span></p>
-<p>password: <span th:text="${user.password}"></span></p>
-
-<a th:href="@{/logout}">Exit</a>
+<nav class="navbar navbar-dark bg-dark">
+    <h5 class="text-white left">
+                <span>
+                    <strong th:text="${user.email}">Admin</strong>
+                    <a>with roles</a>
+                </span>
+        <span th:each="role : ${roles}">
+                    <a th:text="${#strings.substring(role.name, 5)}"></a>
+                </span>
+    </h5>
+    <a th:href="@{/logout}" class="text-right text-white-50" >Logout</a>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-2 my-3">
+            <ul class="nav flex-column nav-pills row">
+                <li class="nav-item" th:each="role : ${user.authorities}"
+                th:if="${role.authority=='ROLE_ADMIN'}">
+                    <a class="nav-link px-4" href="http://localhost:8080/admin">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active px-4" href="http://localhost:8080/user">User</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xl-10 bg-light">
+            <h1 class="my-3">User information-page</h1>
+            <div class="tab-content col-xl-11 bg-white border">
+                <div class="tab-pane show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+                    <h4 class="row bg-light p-3 mb-2 border-bottom">About user</h4>
+                    <table class="table bg-white my-4">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>username</th>
+                            <th>password</th>
+                            <th>email</th>
+                            <th>roles</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:utext="${user.id}"></td>
+                            <td th:utext="${user.username}"></td>
+                            <td th:utext="${user.password}"></td>
+                            <td th:utext="${user.email}"></td>
+                            <td>
+                            <span th:each="role :${user.roles}">
+                                <span th:text="${#strings.substring(role.name, 5)}"></span>
+                            </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <footer class="bg-light mt-auto min-vh-100"></footer>
+    </div>
+</div>
 </body>
 </html>

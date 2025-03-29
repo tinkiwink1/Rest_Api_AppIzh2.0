@@ -23,6 +23,7 @@ public class UserController {
     public String user(Model model, Principal principal) {
         User user = userService.findUserByName(principal.getName());
         model.addAttribute("user", user);
+        model.addAttribute("roles", user.getRoles());
         return "user";
     }
 }

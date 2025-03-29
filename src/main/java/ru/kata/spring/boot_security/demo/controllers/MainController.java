@@ -1,19 +1,25 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RestController;
-import ru.kata.spring.boot_security.demo.entity.User;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
 
-@RestController
+@Controller
 public class MainController {
-    @GetMapping
+
+    @GetMapping("/")
     public String index() {
         return "index";
+    }
+
+    @GetMapping("/login")
+    public String login(@RequestParam(value = "error", required = false) String error,
+                        @RequestParam(value = "logout", required = false) String logout,
+                        Model model) {
+        model.addAttribute("error", error != null);
+        model.addAttribute("logout", logout != null);
+        return "login";
     }
 }

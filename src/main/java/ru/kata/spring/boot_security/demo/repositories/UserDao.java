@@ -15,8 +15,10 @@ public interface UserDao {
 
     User findUserByName(String username);
 
+    User findUserByEmail(String email);
+
     List<User> getAllUsers();
 
-    User findUserWithRolesByUsername(String username);
+    User findUserWithRolesByEmail(String email);
 }
 
