@@ -9,8 +9,6 @@ import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 
 import java.util.List;
-import java.util.Set;
-
 
 public interface UserService extends UserDetailsService {
     List<User> getAllUsers();
@@ -23,9 +21,9 @@ public interface UserService extends UserDetailsService {
 
     void deleteUser(Long id);
 
-    void saveUser(String name, String password, String email, Set<Role> roles);
+    void saveUser(User user);
 
-    void updateUser(Long id, String name, String password, String email, Set<Role> roles);
+    void updateUser(User user);
 
     @Override
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;

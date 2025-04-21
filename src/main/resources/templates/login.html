@@ -12,9 +12,9 @@
 </head>
 <body>
 <div class="container">
-    <form class="form-signin" method="post" action="/login">
+    <form class="form-signin" method="POST" action="/login">
         <div th:if="${logout}" class="alert alert-info" role="alert">You've been logged out successfully.</div>
-        <div th:if="${error}" class="alert alert-danger" role="alert">Invalid Username or Password!</div>
+        <div th:if="${error}" class="alert alert-danger" role="alert">Invalid Email or Password!</div>
         <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
         <h2 class="form-signin-heading">Please sign in</h2>
         <p>
