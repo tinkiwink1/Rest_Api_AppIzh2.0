@@ -23,23 +23,26 @@ public class ViewController {
     }
 
     @GetMapping("/admin")
-    public String admin(ModelMap model, Principal principal) {
+    public ModelAndView admin(ModelAndView model, Principal principal) {
         User authenticatedUser = userService.findUserByName(principal.getName());
-        model.addAttribute("authenticatedUserRoles", authenticatedUser.getRoles());
-        return "admin";
+        model.setViewName("admin");
+        model.addObject("authenticatedUserRoles", authenticatedUser.getRoles());
+        return model;
     }
     @GetMapping("/adminUser")
-    public String adminUser(ModelMap model, Principal principal) {
+    public ModelAndView adminUser(ModelAndView model, Principal principal) {
         User authenticatedUser = userService.findUserByName(principal.getName());
-        model.addAttribute("authenticatedUserRoles", authenticatedUser.getRoles());
-        return "adminUser";
+        model.setViewName("adminUser");
+        model.addObject("authenticatedUserRoles", authenticatedUser.getRoles());
+        return model;
     }
 
 
     @GetMapping("/user")
-    public String user(ModelMap model, Principal principal) {
+    public ModelAndView user(ModelAndView model, Principal principal) {
         User authenticatedUser = userService.findUserByName(principal.getName());
-        model.addAttribute("authenticatedUserRoles", authenticatedUser.getRoles());
-        return "user";
+        model.setViewName("user");
+        model.addObject("authenticatedUserRoles", authenticatedUser.getRoles());
+        return model;
     }
 }

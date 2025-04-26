@@ -15,7 +15,7 @@
                     <a>with roles</a>
                 </span>
         <span th:each="role : ${authenticatedUserRoles}">
-                    <a th:text="${#strings.substring(role.name, 5)}"></a>
+                    <a th:text="${#strings.substring(role.authority, 5)}"></a>
                 </span>
     </h5>
     <a th:href="@{/logout}" class="text-right text-white-50" >Logout</a>

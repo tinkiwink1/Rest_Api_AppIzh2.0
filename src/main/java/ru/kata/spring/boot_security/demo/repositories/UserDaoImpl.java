@@ -1,9 +1,11 @@
 package ru.kata.spring.boot_security.demo.repositories;
 
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.entity.User;
+import ru.kata.spring.boot_security.demo.exception_handlers.NotSuchFoundUserException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

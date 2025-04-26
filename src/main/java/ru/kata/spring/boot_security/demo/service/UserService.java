@@ -28,6 +28,4 @@ public interface UserService extends UserDetailsService {
     @Override
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
-    @Transactional(readOnly = true)
-    List<Role> getAllRoles();
 }

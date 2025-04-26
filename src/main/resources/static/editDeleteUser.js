@@ -35,7 +35,7 @@ async function editUser() {
             if (roleEditSelect.options[i].selected) {
                 editedUserRoles.push({
                     id: parseInt(roleEditSelect.options[i].value),
-                    name: 'ROLE_' + roleEditSelect.options[i].text
+                    authority: 'ROLE_' + roleEditSelect.options[i].text
                 })
             }
         }
@@ -64,7 +64,7 @@ async function fillModalDeleteForm(form, modal, id) {
     form.idDel.value = user.id
     form.usernameDel.value = user.username
     form.emailDel.value = user.email
-    form.rolesInDelete.value = user.roles.map(role => role.name.substring(5).join(", "))
+    form.rolesInDelete.value = user.roles.map(role => role.authority.substring(5) + ' ')
 }
 async function openDeleteModal(id) {
     const modal = new bootstrap.Modal(document.querySelector('#deleteModal'))

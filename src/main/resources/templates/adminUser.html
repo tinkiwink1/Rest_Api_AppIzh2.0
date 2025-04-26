@@ -11,11 +11,11 @@
 <nav class="navbar navbar-dark bg-dark">
     <h5 class="text-white left">
                 <span>
-                    <strong id="authUsername">Admin</strong>
+                    <strong id="authUsername"></strong>
                     <a>with roles</a>
                 </span>
         <span th:each="role : ${authenticatedUserRoles}">
-                    <a th:text="${#strings.substring(role.name, 5)}"></a>
+                    <a th:text="${#strings.substring(role.authority, 5)}"></a>
                 </span>
     </h5>
     <a th:href="@{/logout}" class="text-right text-white-50" >Logout</a>

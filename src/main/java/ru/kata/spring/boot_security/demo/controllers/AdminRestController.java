@@ -33,12 +33,7 @@ public class AdminRestController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserForID(@PathVariable Long id) {
-        User user = userService.findUserById(id);
-        if(user == null) {
-            throw new NotSuchFoundUserException("User with id = " + id + " not found in Database");
-        }
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
     }
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -62,7 +57,6 @@ public class AdminRestController {
 
     @GetMapping("/user")
     public ResponseEntity<User> getUser(Principal principal) {
-        User user = userService.findUserByName(principal.getName());
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(userService.findUserByName(principal.getName()), HttpStatus.OK);
     }
 }
