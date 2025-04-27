@@ -36,4 +36,5 @@ public class RoleDaoImpl implements RoleDao {
         return entityManager.find(Role.class, id);
     }
 
+
 }
