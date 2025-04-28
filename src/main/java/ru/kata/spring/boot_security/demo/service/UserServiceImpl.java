@@ -76,13 +76,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-        User userUp = userDao.findUserById(user.getId());
-        userUp.setUsername(user.getUsername());
-        userUp.setPassword(passwordEncoder.encode(user.getPassword()));
-        userUp.setEmail(user.getEmail());
-        userUp.setRoles(user.getRoles());
-        userDao.updateUser(userUp);
+    public void updateUser(User user) throws NotSuchFoundUserException  {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.updateUser(user);
     }
 
     @Override

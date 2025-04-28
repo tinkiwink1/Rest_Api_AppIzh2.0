@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.exception_handlers.NotSuchFoundUserException;
 import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.security.Principal;
 import java.util.List;
@@ -23,14 +24,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class AdminRestController {
-    private final UserService userService;
+    UserService userService;
 
-    @Autowired
     public AdminRestController(UserService userService) {
         this.userService = userService;
     }
-
-
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserForID(@PathVariable Long id) {
         return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
