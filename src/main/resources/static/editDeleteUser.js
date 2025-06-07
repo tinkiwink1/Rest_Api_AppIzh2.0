@@ -39,6 +39,7 @@ async function editUser() {
                 })
             }
         }
+        console.log("password " + editModalForm.id.value)
         fetch('/api/users', {
             method: 'PUT',
             headers: {

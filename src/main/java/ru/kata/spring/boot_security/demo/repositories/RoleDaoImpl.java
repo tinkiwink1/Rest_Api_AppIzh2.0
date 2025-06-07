@@ -26,15 +26,13 @@ public class RoleDaoImpl implements RoleDao {
             return null;
         }
     }
-
-    @Override
-    public List<Role> getAllRoles() {
-        return entityManager.createQuery("SELECT r FROM Role r", Role.class).getResultList();
-    }
     @Override
     public Role findRoleById(Long id) {
         return entityManager.find(Role.class, id);
     }
 
-
+    @Override
+    public void saveRole(Role role) {
+        entityManager.persist(role);
+    }
 }

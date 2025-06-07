@@ -3,7 +3,7 @@ $(async function () {
 })
 
 async function getAuthUser() {
-    fetch('/api/user')
+    fetch('api/user')
         .then(response => response.json())
         .then(data => {
             $('#authUsername').text(data.email)

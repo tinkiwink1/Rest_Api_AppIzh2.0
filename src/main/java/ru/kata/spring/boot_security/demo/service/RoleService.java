@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface RoleService {
     Role findRoleById(Long id);
-
+    Role findRoleByName(String roleName);
+    void saveRole(Role role);
 }

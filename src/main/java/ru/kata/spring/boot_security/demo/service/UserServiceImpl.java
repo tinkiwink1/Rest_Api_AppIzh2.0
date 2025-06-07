@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import ru.kata.spring.boot_security.demo.repositories.UserDao;
 
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +24,9 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
-    @Autowired
+
+    Logger logger = Logger.getLogger(this.getClass().getName());
+
     public UserServiceImpl(UserDao userDao, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.roleService = roleService;
@@ -52,12 +56,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public User findUserByEmail(String email) {
-        return userDao.findUserByEmail(email);
-    }
-
-    @Override
     @Transactional
     public void deleteUser(Long id) {
         userDao.deleteUser(id);
@@ -73,11 +71,13 @@ public class UserServiceImpl implements UserService {
             userDao.saveUser(user);
         }
     }
-
     @Override
     @Transactional
     public void updateUser(User user) throws NotSuchFoundUserException  {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getPassword().isEmpty()) {
+            user.setPassword(findUserById(user.getId()).getPassword());
+        }
+        else user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.updateUser(user);
     }
 
